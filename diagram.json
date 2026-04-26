@@ -2,36 +2,39 @@
   "version": 1,
   "editor": "wokwi",
   "parts": [
-    { "type": "board-esp32-devkit-v1", "id": "esp", "top": 0, "left": 0, "attrs": {} },
-    { "type": "board-ssd1306", "id": "oled", "top": 40.54, "left": 163.43, "attrs": {} },
-    { "type": "wokwi-dht22", "id": "dht", "top": 2.1, "left": -120.6, "attrs": {} },
-    { "type": "wokwi-pushbutton", "id": "btn_up", "top": 140, "left": 160, "attrs": { "color": "green" } },
-    { "type": "wokwi-pushbutton", "id": "btn_down", "top": 140, "left": 230, "attrs": { "color": "red" } },
-    { "type": "wokwi-buzzer", "id": "buzzer", "top": -80, "left": 200, "attrs": {} },
+    { "type": "board-esp32-devkit-v1", "id": "esp", "top": -50, "left": 30, "attrs": {} },
+    { "type": "board-ssd1306", "id": "oled", "top": 35, "left": -200, "attrs": {} },
+    { "type": "wokwi-dht22", "id": "dht", "top": -90, "left": -40, "attrs": {} },
+    { "type": "wokwi-pushbutton", "id": "btn_up", "top": 40, "left": -100, "attrs": { "color": "green" } },
+    { "type": "wokwi-pushbutton", "id": "btn_down", "top": 90, "left": -100, "attrs": { "color": "red" } },
+    { "type": "wokwi-buzzer", "id": "buzzer", "top": -100, "left": 200, "attrs": {} },
     { "type": "wokwi-led", "id": "led", "top": -80, "left": 140, "attrs": { "color": "red" } },
     { "type": "wokwi-resistor", "id": "r1", "top": -40, "left": 140, "attrs": { "value": "330" } }
   ],
   "connections": [
-    [ "esp:3V3", "oled:VCC", "red", [ "v0" ] ],
-    [ "esp:GND.1", "oled:GND", "black", [ "v0" ] ],
-    [ "esp:D22", "oled:SCL", "green", [ "v0" ] ],
-    [ "esp:D21", "oled:SDA", "green", [ "v0" ] ],
+    [ "esp:TX0", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX0", "$serialMonitor:TX", "", [] ],
+
+    [ "esp:3V3", "oled:VCC", "red", ["v1"] ],
+    [ "esp:GND.1", "oled:GND", "black", [ "v1" ] ],
+    [ "esp:D22", "oled:SCL", "green", [ "v1" ] ],
+    [ "esp:D21", "oled:SDA", "green", [ "v1" ] ],
     
-    [ "esp:3V3", "dht:VCC", "red", [ "v0" ] ],
-    [ "esp:GND.1", "dht:GND", "black", [ "v0" ] ],
-    [ "esp:RX2", "dht:SDA", "cyan", [ "v0" ] ],
+    [ "esp:3V3", "dht:VCC", "red", [  ] ],
+    [ "esp:GND.1", "dht:GND", "black", [  ] ],
+    [ "esp:RX2", "dht:SDA", "cyan", [  ] ],
     
-    [ "esp:GND.2", "btn_up:1.r", "black", [ "v0" ] ],
-    [ "esp:D12", "btn_up:2.r", "green", [ "v0" ] ],
+    [ "esp:GND.2", "btn_up:1.r", "black", [ ] ],
+    [ "esp:D12", "btn_up:2.r", "green", [  ] ],
     
-    [ "esp:GND.2", "btn_down:1.r", "black", [ "v0" ] ],
-    [ "esp:D14", "btn_down:2.r", "yellow", [ "v0" ] ],
+    [ "esp:GND.2", "btn_down:1.r", "black", [ ] ],
+    [ "esp:D14", "btn_down:2.r", "yellow", [  ] ],
     
-    [ "esp:D26", "r1:2", "orange", [ "v0" ] ],
-    [ "r1:1", "led:A", "orange", [ "v0" ] ],
-    [ "esp:GND.1", "led:C", "black", [ "v0" ] ],
+    [ "esp:D26", "r1:2", "orange", [  ] ],
+    [ "r1:1", "led:A", "orange", [] ],
+    [ "esp:GND.1", "led:C", "black", [  ] ],
     
-    [ "esp:D27", "buzzer:PIN", "purple", [ "v0" ] ],
-    [ "esp:GND.1", "buzzer:GND", "black", [ "v0" ] ]
+    [ "esp:D27", "buzzer:1", "purple", [  ] ],
+    [ "esp:GND.1", "buzzer:2", "black", [ ] ]
   ]
 }

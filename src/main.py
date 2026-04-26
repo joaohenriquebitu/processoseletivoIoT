@@ -4,7 +4,7 @@ import ssd1306
 import time
 
 
-i2c = machine.I2C(0, scl=machine.Pin(22), sda=machine.Pin(21))
+i2c = machine.I2C(0, scl=machine.Pin(22), sda=machine.Pin(21), freq=800000)
 oled = ssd1306.SSD1306_I2C(128, 64, i2c)
 
 
@@ -19,6 +19,7 @@ led = machine.Pin(26, machine.Pin.OUT)
 buzzer = machine.PWM(machine.Pin(27), duty=0)
 alarm_timer = machine.Timer(0)
 is_alarming = False
+printed = False
 
 
 threshold = 30.0
@@ -45,7 +46,7 @@ def start_alarm():
         is_alarming = True
         buzzer.duty(512)
         alarm_timer.init(
-            period=250, mode=machine.Timer.PERIODIC, callback=toggle_alarm) # TODO: testar funcionalidade do PWM
+            period=250, mode=machine.Timer.PERIODIC, callback=toggle_alarm)
 
 
 def stop_alarm():
@@ -57,16 +58,14 @@ def stop_alarm():
         buzzer.duty(0)
 
 
-time.sleep(1)
-
 while True:
     current_time = time.ticks_ms()
 
-    if time.ticks_diff(current_time, last_btn_time) > 200:
-        if not btn_up.value():
+    if time.ticks_diff(current_time, last_btn_time) > 150:
+        if btn_up.value() == 0:
             threshold += 0.5
             last_btn_time = current_time
-        elif not btn_down.value():
+        elif btn_down.value() == 0:
             threshold -= 0.5
             last_btn_time = current_time
 
@@ -83,14 +82,6 @@ while True:
             t_min = min(history)
             t_avg = sum(history) / len(history)
 
-            oled.fill(0)
-            oled.text(f"Temp: {temp:.1f} C", 0, 0)
-            oled.text(f"Max : {t_max:.1f} C", 0, 12)
-            oled.text(f"Min : {t_min:.1f} C", 0, 24)
-            oled.text(f"Med : {t_avg:.1f} C", 0, 36)
-            oled.text(f"Alarme> {threshold:.1f} C", 0, 52)
-            oled.show()
-
             if temp > threshold:
                 start_alarm()
             else:
@@ -103,4 +94,16 @@ while True:
 
         last_read_time = current_time
 
-    time.sleep_ms(50)
+    oled.fill(0)
+    oled.text(f"Temp: {temp:.1f} C", 0, 0)
+    oled.text(f"Max : {t_max:.1f} C", 0, 12)
+    oled.text(f"Min : {t_min:.1f} C", 0, 24)
+    oled.text(f"Med : {t_avg:.1f} C", 0, 36)
+    oled.text(f"Alarme > {threshold:.1f} C", 0, 52)
+    oled.show()
+
+
+    # print de teste para o github actions, significa que conseguiu rodar o loop com sucesso
+    if not printed:
+      print("Teste")
+      printed = True
