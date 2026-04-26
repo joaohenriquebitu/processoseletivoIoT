@@ -6,9 +6,8 @@ ENV IDF_PATH="/opt/esp/idf/"
 
 WORKDIR "/"
 
-# RUN mkdir -p /fs
 COPY src/main.py /main.py
-# COPY boot.py /boot.py
+COPY src/ssd1306.py /ssd1306.py 
 
 RUN git clone https://github.com/earlephilhower/mklittlefs.git && \
   cd mklittlefs && \
@@ -16,11 +15,11 @@ RUN git clone https://github.com/earlephilhower/mklittlefs.git && \
   make dist && \
   ./mklittlefs --version
 
+
 RUN cd mklittlefs && \
   mkdir -p ~/fs && \
   cp /main.py ~/fs/main.py && \
-  #  cp /boot.py ~/fs/boot.py && \
+  cp /ssd1306.py ~/fs/ssd1306.py && \
   ./mklittlefs -c ~/fs -b 4096 -p 256 -s 0x200000 /fs.bin
-
 
 CMD ["/bin/bash"]
