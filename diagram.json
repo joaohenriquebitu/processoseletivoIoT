@@ -8,8 +8,8 @@
     { "type": "wokwi-pushbutton", "id": "btn_up", "top": 40, "left": -100, "attrs": { "color": "green" } },
     { "type": "wokwi-pushbutton", "id": "btn_down", "top": 90, "left": -100, "attrs": { "color": "red" } },
     { "type": "wokwi-buzzer", "id": "buzzer", "top": -100, "left": 200, "attrs": {} },
-    { "type": "wokwi-led", "id": "led", "top": -80, "left": 140, "attrs": { "color": "red" } },
-    { "type": "wokwi-resistor", "id": "r1", "top": -40, "left": 140, "attrs": { "value": "330" } }
+    { "type": "wokwi-led", "id": "led", "top": -90, "left": 160, "attrs": { "color": "red" } },
+    { "type": "wokwi-resistor", "id": "r1", "top": -20, "left": 140, "attrs": { "value": "330" } }
   ],
   "connections": [
     [ "esp:TX0", "$serialMonitor:RX", "", [] ],
